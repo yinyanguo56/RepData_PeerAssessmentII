@@ -32,7 +32,7 @@ boxplot(len~supp,data=ToothGrowth, main="len supp Data",
         xlab="supp", ylab="len")
 ```
 
-![plot of chunk unnamed-chunk-2](figure/unnamed-chunk-2-1.png) 
+![plot of chunk projectII-2](figure/projectII-2-1.png) 
 
 ## Hypothesis tests and difference interval  
 H0: Mu(OJ)=Mu(VC)       Ha: Mu(OJ)<>Mu(VC), alpha=0.05  
@@ -87,7 +87,7 @@ boxplot(len~dose,data=ToothGrowth, main="len dose Data",
         xlab="dose", ylab="len")
 ```
 
-![plot of chunk unnamed-chunk-4](figure/unnamed-chunk-4-1.png) 
+![plot of chunk projectII-3](figure/projectII-3-1.png) 
 
 ```r
 tapply(ToothGrowth$len, ToothGrowth$dose, mean)

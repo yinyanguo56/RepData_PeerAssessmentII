@@ -9,13 +9,13 @@ output: html_document
 This is a report (part II) for "Statistical Inference Course Project. hypothesis tests on ToothGrowth data (len in each supp, and len in each dose).  
 
 ##Get data and summerize data  
-```{r}
+```{r projectII-1}
 library(datasets)
 summary(ToothGrowth)
 ```
 
 ## explore  tooth growth by supp    
-```{r}
+```{r projectII-2}
 boxplot(len~supp,data=ToothGrowth, main="len supp Data",
         xlab="supp", ylab="len")
 ```
@@ -23,7 +23,7 @@ boxplot(len~supp,data=ToothGrowth, main="len supp Data",
 ## Hypothesis tests and difference interval  
 H0: Mu(OJ)=Mu(VC)       Ha: Mu(OJ)<>Mu(VC), alpha=0.05  
 
-```{r}
+```{r }
 ## assume equal variance
 OJ<- ToothGrowth[ToothGrowth$supp=="OJ",1]
 VC<- ToothGrowth[ToothGrowth$supp=="VC",1]
@@ -36,7 +36,7 @@ t.test(ToothGrowth$len~ToothGrowth$supp)
   Tooth len is significant different between supp(OJ) and sup(VC) with given alpha.
 
 ## explore  tooth growth by dose    
-```{r}
+```{r projectII-3}
 boxplot(len~dose,data=ToothGrowth, main="len dose Data",
         xlab="dose", ylab="len")
 tapply(ToothGrowth$len, ToothGrowth$dose, mean)

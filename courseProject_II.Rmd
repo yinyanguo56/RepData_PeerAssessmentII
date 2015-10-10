@@ -1,0 +1,72 @@
+---
+title: "ToothGrowth data analysis"
+author: "Yinyan Guo"
+date: "October 9, 2015"
+output: html_document
+---
+
+##Overview
+This is a report (part II) for "Statistical Inference Course Project. hypothesis tests on ToothGrowth data (len in each supp, and len in each dose).  
+
+##Get data and summerize data  
+```{r}
+library(datasets)
+summary(ToothGrowth)
+```
+
+## explore  tooth growth by supp    
+```{r}
+boxplot(len~supp,data=ToothGrowth, main="len supp Data",
+        xlab="supp", ylab="len")
+```
+
+## Hypothesis tests and difference interval  
+H0: Mu(OJ)=Mu(VC)       Ha: Mu(OJ)<>Mu(VC), alpha=0.05  
+
+```{r}
+## assume equal variance
+OJ<- ToothGrowth[ToothGrowth$supp=="OJ",1]
+VC<- ToothGrowth[ToothGrowth$supp=="VC",1]
+t.test(OJ,VC, var.equal=TRUE, paired=FALSE)
+
+## assume variance are not equal
+t.test(ToothGrowth$len~ToothGrowth$supp)
+```
+## conclusion:
+  Tooth len is significant different between supp(OJ) and sup(VC) with given alpha.
+
+## explore  tooth growth by dose    
+```{r}
+boxplot(len~dose,data=ToothGrowth, main="len dose Data",
+        xlab="dose", ylab="len")
+tapply(ToothGrowth$len, ToothGrowth$dose, mean)
+```
+
+## ANOVA test since there are > 2 levels in dose  
+
+```{r}
+Tooth.df =ToothGrowth
+Tooth.df$Dosegroup = factor(Tooth.df$dose)
+Tooth.mod1 = lm(len ~ Dosegroup, data = Tooth.df)
+anova(Tooth.mod1)
+summary(Tooth.mod1)
+```
+## Conclusion1:
+- ANOVA comparison results showed at least two doses their tooth len are different    
+- In 3 doses comparison. Dose 0.5 is significant different with the other 2 doses (in default, lm uses level1 dose=0.5 as baseline)  
+```{r}  
+
+## compare  dose(1) vs dose (2)
+mat<- cbind(rep(1/3, 3), " 1 vs 2"=c(0,1,-1)," 0.5 vs 1"=c(-1,1,0))
+mymat <- solve(t(mat))
+my.contrast <- mymat[,2:3]
+contrasts(Tooth.df$Dosegroup) <- my.contrast
+summary.lm(aov(len ~ Dosegroup, data = Tooth.df))
+```
+## Conclusion2:
+- Comparison results showed there is significant different in tooth len in dose (1) with dose(2).   
+
+Thus, there are significant difference among three doses.
+
+Notes: the significant tests above is based on the assumption that the len data are normal distribution.
+
